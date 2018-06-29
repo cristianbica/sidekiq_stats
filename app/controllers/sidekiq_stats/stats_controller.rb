@@ -32,7 +32,7 @@ module SidekiqStats
     def data
       lines = []
       lines << {
-        tags: { app: app_name, env: Rails.env, global: "yes", queue: nil },
+        tags: { app: app_name, env: Rails.env, global: "yes" },
         values: raw_data[:stats]
       }
       raw_data[:queues].each do |queue_data|
