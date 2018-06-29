@@ -21,7 +21,7 @@ module SidekiqStats
     def as_influxdb
       data.map do |line|
         [
-          "sidekiq_stats,",
+          "#{line[:name]},",
           line[:tags].map { |k, v| "#{k}=#{v}" }.join(","),
           " ",
           line[:values].map { |k, v| "#{k}=#{v}" }.join(","),
@@ -32,12 +32,14 @@ module SidekiqStats
     def data
       lines = []
       lines << {
-        tags: { app: app_name, env: Rails.env, global: "yes" },
+        name: "sidekiq_global_stats",
+        tags: { app: app_name, env: Rails.env },
         values: raw_data[:stats]
       }
       raw_data[:queues].each do |queue_data|
         lines << {
-          tags: { app: app_name, env: Rails.env, global: "no", queue: queue_data[:name] },
+          name: "sidekiq_queue_stats",
+          tags: { app: app_name, env: Rails.env, queue: queue_data[:name] },
           values: queue_data.except(:name)
         }
       end
