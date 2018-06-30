@@ -1,5 +1,5 @@
 module SidekiqStats
-  class ApplicationController < ActionController::API
+  class ApplicationController < ::ApplicationController
     include ActionController::MimeResponds
     # protect_from_forgery with: :exception
   end
